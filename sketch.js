@@ -7,8 +7,10 @@ var sea;
 var invBg;
 var gameState = PLAY;
 var obstacleGroup;
+var start,startImg;
 
 var diverImg, whaleImg;
+var score=0;
 
 
 
@@ -17,12 +19,16 @@ function preload() {
   seaImg = loadImage("images/bg.png");
   diverImg = loadImage("images/obs2.png");
   whaleImg = loadImage("images/obs1.png");
+  startImg = loadImage("images/1120358.jpg");
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   sea = createSprite(500, windowHeight / 2, 10, 10);
   sea.addImage(seaImg);
+ /* start=createSprite(windowWidth/2,windowHeight/1.9,20,20);
+  start.addImage(startImg);*/
+  
   sea.velocityX = -20;
   submarine = createSprite(windowWidth / 6, windowHeight / 2, 50, 50);
   submarine.addImage(submarineImg);
@@ -34,7 +40,11 @@ function setup() {
 
 function draw() {
   
-  if (gameState === PLAY) {
+   //  console.log(obstacleGroup.x)
+
+
+
+   if (gameState === PLAY) {
 
     if (sea.x < 0) {
 
@@ -58,8 +68,22 @@ function draw() {
     invBg.visible = false;
 
     obstacles();
+
+    for(var i=0; i<obstacleGroup.length; i++){
+   
+      if(obstacleGroup.get(i).x<38 && obstacleGroup.get(i).x>28){    
+        score++
+      }
+    }
+
+   /* if(ObstacleGroup.x<=38){
+        score=score+1;
+    }*/
   }
   drawSprites();
+  fill("white");
+  textSize(20);
+  text("Score= "+score,30,20); 
 
 }
 
@@ -67,7 +91,7 @@ function obstacles() {
   
   if (World.frameCount % 80 === 0) {
     var obstacle = createSprite(width, 200, 20, 20);
-    obstacle.y = Math.round(random(500, 900));
+    obstacle.y = Math.round(random(100, 1000));
     //create switch statement
     rand = Math.round(random(1, 2));
     switch (rand) {
@@ -79,7 +103,9 @@ function obstacles() {
 
 
     }
-    obstacle.velocityX = -20;
+    obstacle.velocityX = -10;
+    obstacle.scale = 0.5;
     obstacle.depth = submarine.depth + 1;
+    obstacleGroup.add(obstacle);
   }
 }
