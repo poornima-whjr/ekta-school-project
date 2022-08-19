@@ -72,7 +72,7 @@ function draw() {
     for(var i=0; i<obstacleGroup.length; i++){
    
       if(obstacleGroup.get(i).x<38 && obstacleGroup.get(i).x>28){    
-        score++
+        score=score+10
       }
     }
 
